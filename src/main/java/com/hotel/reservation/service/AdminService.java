@@ -1,4 +1,4 @@
-package com.hotel.reservation.model; // Keeping it exactly where you have it
+package com.hotel.reservation.service; // Keeping it exactly where you have it
 
 import com.hotel.reservation.util.FileHandler;
 import java.util.List;
