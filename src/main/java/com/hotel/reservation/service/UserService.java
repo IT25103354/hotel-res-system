@@ -12,25 +12,26 @@ public class UserService {
     // CRUD: CREATE
     public boolean registerUser(User newUser) {
         ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
+
         for (String line : lines) {
             if (line.trim().isEmpty()) continue;
 
             String[] data = line.split(",");
 
-            // Check if email (index 2) already exists
-            if (data[2].equalsIgnoreCase(newUser.getEmail())) {
+            // Check if email already exists
+            if (data.length >= 3 && data[2].equalsIgnoreCase(newUser.getEmail())) {
                 System.out.println("Registration failed: Email already registered.");
                 return false;
             }
         }
 
-        // Save the new user record onto the text database
+        // Save user (IMPORTANT: requires toString() in User.java)
         FileHandler.writeToFile(USER_FILE, newUser.toString());
         System.out.println("User registered successfully!");
         return true;
     }
 
-    // CRUD: READ
+    // CRUD: READ (LOGIN)
     public User loginUser(String email, String password) {
         ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
 
@@ -39,10 +40,12 @@ public class UserService {
 
             String[] data = line.split(",");
 
-            // Match email (index 2) and password (index 3)
-            if (data[2].equalsIgnoreCase(email) && data[3].equals(password)) {
-                System.out.println("Login successful! Welcome, " + data[1]);
-                return new User(data[0], data[1], data[2], data[3], data[4]);
+            if (data.length >= 5) {
+                // Match email and password
+                if (data[2].equalsIgnoreCase(email) && data[3].equals(password)) {
+                    System.out.println("Login successful! Welcome, " + data[1]);
+                    return new User(data[0], data[1], data[2], data[3], data[4]);
+                }
             }
         }
 
@@ -50,7 +53,7 @@ public class UserService {
         return null;
     }
 
-    // CRUD: READ ALL (Sprint 2 Requirement)
+    // CRUD: READ ALL
     public List<User> getUsers() {
         List<User> userList = new ArrayList<>();
         ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
@@ -64,6 +67,7 @@ public class UserService {
                 userList.add(new User(data[0], data[1], data[2], data[3], data[4]));
             }
         }
+
         return userList;
     }
 
@@ -78,7 +82,7 @@ public class UserService {
 
             String[] data = line.split(",");
 
-            if (data[0].equals(userId)) {
+            if (data.length >= 1 && data[0].equals(userId)) {
                 lines.set(i, updatedUserDetails.toString());
                 found = true;
                 break;

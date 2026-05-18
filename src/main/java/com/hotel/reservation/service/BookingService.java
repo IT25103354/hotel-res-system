@@ -2,12 +2,48 @@ package com.hotel.reservation.service;
 
 import com.hotel.reservation.model.Booking;
 import com.hotel.reservation.util.FileHandler;
+import com.hotel.reservation.service.RoomService;
+import com.hotel.reservation.service.UserService;
 
 import java.util.ArrayList;
 
 public class BookingService {
 
+    private RoomService roomService = new RoomService();
+    private UserService userService = new UserService();
+
     public void createBooking(Booking booking) {
+
+
+        boolean userExists = false;
+        for (var user : userService.getUsers()) {
+            if (user.getUserId().equals(booking.getUserId())) {
+                userExists = true;
+                break;
+            }
+        }
+
+        if (!userExists) {
+            System.out.println("Booking failed: User does not exist.");
+            return;
+        }
+
+
+        boolean roomAvailable = false;
+
+        for (var room : roomService.getRooms()) {
+            if (room.getRoomId().equals(booking.getRoomId()) && room.isAvailable()) {
+                roomAvailable = true;
+                break;
+            }
+        }
+
+        if (!roomAvailable) {
+            System.out.println("Booking failed: Room not available.");
+            return;
+        }
+
+
         String data = booking.getBookingId() + "," +
                 booking.getUserId() + "," +
                 booking.getRoomId() + "," +
@@ -15,28 +51,8 @@ public class BookingService {
                 booking.getStatus();
 
         FileHandler.writeToFile("data/bookings.txt", data);
-    }
 
-    public ArrayList<Booking> getBookings() {
-
-        ArrayList<Booking> bookingList = new ArrayList<>();
-        ArrayList<String> lines = FileHandler.readFromFile("data/bookings.txt");
-
-        for (String line : lines) {
-            String[] data = line.split(",");
-
-            Booking booking = new Booking(
-                    data[0], // bookingId
-                    data[1], // userId
-                    data[2], // roomId
-                    data[3], // date
-                    data[4]  // status
-            );
-
-            bookingList.add(booking);
-        }
-
-        return bookingList;
+        System.out.println("Booking created successfully!");
     }
 
     public void cancelBooking(String bookingId) {
@@ -48,6 +64,7 @@ public class BookingService {
             String[] data = line.split(",");
 
             if (!data[0].equals(bookingId)) {
+
                 updatedLines.add(line);
             }
         }
@@ -58,4 +75,7 @@ public class BookingService {
     public ArrayList<Booking> getBookingsByUser(String userId) {
         return new ArrayList<>();
     }
+
+
 }
+

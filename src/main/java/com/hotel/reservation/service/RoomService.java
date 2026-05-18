@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 public class RoomService {
 
-    private final String FILE_NAME = "data/rooms-txt";
-
+    private final String FILE_NAME = "data/rooms.txt";
     // Add room
     public void addRoom(Room room) {
 
