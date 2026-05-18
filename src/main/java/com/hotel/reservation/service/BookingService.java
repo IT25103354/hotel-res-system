@@ -41,7 +41,18 @@ public class BookingService {
 
     public void cancelBooking(String bookingId) {
 
+        ArrayList<String> lines = FileHandler.readFromFile("data/bookings.txt");
+        ArrayList<String> updatedLines = new ArrayList<>();
 
+        for (String line : lines) {
+            String[] data = line.split(",");
+
+            if (!data[0].equals(bookingId)) {
+                updatedLines.add(line);
+            }
+        }
+
+        FileHandler.overwriteFile("data/bookings.txt", updatedLines);
     }
 
     public ArrayList<Booking> getBookingsByUser(String userId) {
