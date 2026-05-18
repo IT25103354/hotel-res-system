@@ -45,4 +45,19 @@ public class FileHandler {
 
         return list;
     }
+
+    public static void overwriteFile(String fileName, ArrayList<String> data) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+
+            for (String line : data) {
+                writer.write(line);
+                writer.newLine();
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error overwriting file");
+        }
+    }
 }
