@@ -8,7 +8,6 @@ public class Booking {
     private String date;
     private String status;
 
-    // Constructor
     public Booking(String bookingId, String userId, String roomId, String date, String status) {
         this.bookingId = bookingId;
         this.userId = userId;
@@ -17,11 +16,9 @@ public class Booking {
         this.status = status;
     }
 
-    // Default constructor
     public Booking() {
     }
 
-    // Getters and Setters
     public String getBookingId() {
         return bookingId;
     }
