@@ -1,14 +1,14 @@
-package com.hotel.reservation.service; // Keeping it exactly where you have it
+package com.hotel.reservation.service;
 
 import com.hotel.reservation.util.FileHandler;
-import java.util.List;
 import java.util.ArrayList;
 
 public class AdminService {
 
-    private static final String USERS_FILE = "users.txt";
-    private static final String ROOMS_FILE = "rooms.txt";
-    private static final String BOOKINGS_FILE = "bookings.txt";
+    // Syncing file paths to match your team's "data/" directory structure
+    private static final String USERS_FILE = "data/users.txt";
+    private static final String ROOMS_FILE = "data/rooms.txt";
+    private static final String BOOKINGS_FILE = "data/bookings.txt";
 
     // =========================================================================
     // 🔑 SPRINT 1 & 2: ROLE-BASED ACCESS CONTROL
@@ -25,13 +25,13 @@ public class AdminService {
 
     public void viewAllUsers() {
         System.out.println("--- System Users List ---");
-        List<String> users = FileHandler.readFromFile(USERS_FILE);
+        ArrayList<String> users = FileHandler.readFromFile(USERS_FILE);
         if (users.isEmpty()) {
             System.out.println("No users registered in the system.");
             return;
         }
-        for (String userLine : users) {
-            System.out.println(userLine);
+        for (int i = 0; i < users.size(); i++) {
+            System.out.println(users.get(i));
         }
     }
 
@@ -41,39 +41,40 @@ public class AdminService {
             return;
         }
 
-        List<String> allUsers = FileHandler.readFromFile(USERS_FILE);
+        ArrayList<String> allUsers = FileHandler.readFromFile(USERS_FILE);
+        ArrayList<String> remainingUsers = new ArrayList<>();
         boolean found = false;
 
-        // Clear the file completely first by rewriting an empty state
-        // (This matches standard fixed manual file array tracking logic)
-        for (String line : allUsers) {
+        // Separate the remaining users from the one being deleted
+        for (int i = 0; i < allUsers.size(); i++) {
+            String line = allUsers.get(i);
+            if (line.trim().isEmpty()) continue;
+
             String[] data = line.split(",");
             if (data.length > 0 && data[0].trim().equals(userId.trim())) {
-                found = true; // Skip this user
+                found = true; // Skip this user line (deleting it)
+            } else {
+                remainingUsers.add(line); // Keep everyone else
             }
         }
 
         if (found) {
-            // Re-write the updated lines one by one or create a clean file state
-            // Re-saving to match your teammate's implementation:
-            List<String> remainingUsers = new ArrayList<>();
-            for (String line : allUsers) {
-                String[] data = line.split(",");
-                if (data.length > 0 && !data[0].trim().equals(userId.trim())) {
-                    remainingUsers.add(line);
-                }
-            }
+            // FIX: Safely wipe and completely overwrite the file with the clean data
+            try {
+                java.nio.file.Files.write(
+                        java.nio.file.Paths.get(USERS_FILE),
+                        new byte[0],
+                        java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
+                );
 
-            // Loop and write individual strings to bypass the list argument issue
-            boolean first = true;
-            for (String cleanLine : remainingUsers) {
-                if (first) {
-                    // Overwrite the file with the first line
-                    // In a simple environment, writing individual lines or appending works best
-                    first = false;
+                // Write the remaining users back line by line using your FileHandler
+                for (int i = 0; i < remainingUsers.size(); i++) {
+                    FileHandler.writeToFile(USERS_FILE, remainingUsers.get(i));
                 }
+                System.out.println("Successfully deleted user ID: " + userId);
+            } catch (Exception e) {
+                System.out.println("Error wiping file for user deletion.");
             }
-            System.out.println("Successfully processed removal request for user ID: " + userId);
         } else {
             System.out.println("User ID " + userId + " not found in the system.");
         }
@@ -89,10 +90,9 @@ public class AdminService {
             return;
         }
 
-        // Format data as a clean comma-separated text line
+        // Format data as a clean comma-separated text line (Default availability to true)
         String roomDataLine = roomId + "," + roomType + "," + pricePerNight + ",true";
 
-        // Let's pass a individual String directly to match your friend's writeToFile method signature!
         FileHandler.writeToFile(ROOMS_FILE, roomDataLine);
         System.out.println("Successfully added Room: " + roomId + " [" + roomType + "]");
     }
@@ -103,24 +103,42 @@ public class AdminService {
             return;
         }
 
-        List<String> allRooms = FileHandler.readFromFile(ROOMS_FILE);
+        ArrayList<String> allRooms = FileHandler.readFromFile(ROOMS_FILE);
         boolean found = false;
 
-        for (String line : allRooms) {
-            String[] data = line.split(",");
-            if (data.length >= 4 && data[0].trim().equals(roomId.trim())) {
-                String roomType = data[1].trim();
-                String updatedLine = roomId + "," + roomType + "," + newPrice + "," + isAvailable;
+        // Track changes manually in our tracking list
+        for (int i = 0; i < allRooms.size(); i++) {
+            String line = allRooms.get(i);
+            if (line.trim().isEmpty()) continue;
 
-                // Writing the single updated string block directly
-                FileHandler.writeToFile(ROOMS_FILE, updatedLine);
+            String[] data = line.split(",");
+            if (data.length >= 2 && data[0].trim().equals(roomId.trim())) {
+                String roomType = data[1].trim();
+                // Replace the element at index i with the updated comma-separated values
+                String updatedLine = roomId + "," + roomType + "," + newPrice + "," + isAvailable;
+                allRooms.set(i, updatedLine);
                 found = true;
                 break;
             }
         }
 
         if (found) {
-            System.out.println("Successfully updated details for Room ID: " + roomId);
+            // FIX: Wipes old file so appending doesn't double-up the text data layout
+            try {
+                java.nio.file.Files.write(
+                        java.nio.file.Paths.get(ROOMS_FILE),
+                        new byte[0],
+                        java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
+                );
+
+                // Re-write the updated list back into storage line by line safely
+                for (int i = 0; i < allRooms.size(); i++) {
+                    FileHandler.writeToFile(ROOMS_FILE, allRooms.get(i));
+                }
+                System.out.println("Successfully updated details for Room ID: " + roomId);
+            } catch (Exception e) {
+                System.out.println("Error wiping file for room update.");
+            }
         } else {
             System.out.println("Room ID " + roomId + " not found.");
         }
@@ -132,13 +150,13 @@ public class AdminService {
 
     public void viewAllBookings() {
         System.out.println("--- System Bookings Log ---");
-        List<String> bookings = FileHandler.readFromFile(BOOKINGS_FILE);
+        ArrayList<String> bookings = FileHandler.readFromFile(BOOKINGS_FILE);
         if (bookings.isEmpty()) {
             System.out.println("No reservations found in the system.");
             return;
         }
-        for (String bookingLine : bookings) {
-            System.out.println(bookingLine);
+        for (int i = 0; i < bookings.size(); i++) {
+            System.out.println(bookings.get(i));
         }
     }
 }
