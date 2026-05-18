@@ -7,7 +7,6 @@ public class Room {
     private double price;
     private boolean available;
 
-    // Constructor
     public Room(String roomId, String type, double price, boolean available) {
         this.roomId = roomId;
         this.type = type;
@@ -15,11 +14,9 @@ public class Room {
         this.available = available;
     }
 
-    // Default constructor
     public Room() {
     }
 
-    // Getters and Setters
     public String getRoomId() {
         return roomId;
     }
