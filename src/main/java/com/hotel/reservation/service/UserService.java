@@ -1,6 +1,8 @@
 package com.hotel.reservation.service;
 
 import com.hotel.reservation.model.User;
+import com.hotel.reservation.util.FileHandler;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -9,8 +11,7 @@ public class UserService {
 
     // CRUD: CREATE
     public boolean registerUser(User newUser) {
-        List<String> lines = com.hotel.reservation.util.FileHandler.readFromFile(USER_FILE);
-
+        ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
         for (String line : lines) {
             if (line.trim().isEmpty()) continue;
 
@@ -24,14 +25,14 @@ public class UserService {
         }
 
         // Save the new user record onto the text database
-        com.hotel.reservation.util.FileHandler.writeToFile(USER_FILE, newUser.toString());
+        FileHandler.writeToFile(USER_FILE, newUser.toString());
         System.out.println("User registered successfully!");
         return true;
     }
 
     // CRUD: READ
     public User loginUser(String email, String password) {
-        List<String> lines = com.hotel.reservation.util.FileHandler.readFromFile(USER_FILE);
+        ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
 
         for (String line : lines) {
             if (line.trim().isEmpty()) continue;
@@ -49,9 +50,26 @@ public class UserService {
         return null;
     }
 
+    // CRUD: READ ALL (Sprint 2 Requirement)
+    public List<User> getUsers() {
+        List<User> userList = new ArrayList<>();
+        ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
+
+        for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
+
+            String[] data = line.split(",");
+
+            if (data.length >= 5) {
+                userList.add(new User(data[0], data[1], data[2], data[3], data[4]));
+            }
+        }
+        return userList;
+    }
+
     // CRUD: UPDATE
     public boolean updateUserProfile(String userId, User updatedUserDetails) {
-        List<String> lines = com.hotel.reservation.util.FileHandler.readFromFile(USER_FILE);
+        ArrayList<String> lines = FileHandler.readFromFile(USER_FILE);
         boolean found = false;
 
         for (int i = 0; i < lines.size(); i++) {
@@ -60,7 +78,6 @@ public class UserService {
 
             String[] data = line.split(",");
 
-            // Match unique identifier index
             if (data[0].equals(userId)) {
                 lines.set(i, updatedUserDetails.toString());
                 found = true;
@@ -69,34 +86,12 @@ public class UserService {
         }
 
         if (found) {
-            // Trigger dedicated helper to safely clear data layers and rewrite
-            saveAllUsers(lines);
+            FileHandler.overwriteFile(USER_FILE, lines);
             System.out.println("User profile updated successfully.");
             return true;
         }
 
         System.out.println("Update failed: User ID not found.");
         return false;
-    }
-
-    // HELPER UTILITY: REWRITE CONTROL
-    private void saveAllUsers(List<String> lines) {
-        try {
-            // Instantly wipes old file data so updates don't keep piling up at the bottom
-            java.nio.file.Files.write(
-                    java.nio.file.Paths.get(USER_FILE),
-                    new byte[0],
-                    java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
-            );
-
-            // Loop over the clean list and write every entry back safely
-            for (String line : lines) {
-                if (!line.trim().isEmpty()) {
-                    com.hotel.reservation.util.FileHandler.writeToFile(USER_FILE, line);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Critical Error updating text database ledger: " + e.getMessage());
-        }
     }
 }
