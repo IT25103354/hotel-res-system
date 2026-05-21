@@ -1,166 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — Grand Azure</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="bg-scene"></div>
 
-<header class="nav">
-    <div class="nav-inner">
-        <a href="/admin" class="brand">Grand Azure<span>Admin Console</span></a>
-        <div class="nav-links">
-            <span class="badge badge-admin">Administrator</span>
-            <a href="/rooms">Guest view</a>
-            <a href="/admin">Dashboard</a>
-            <a href="/logout">Sign out</a>
-        </div>
-    </div>
-</header>
+<h1>Hotel Reservation System</h1>
 
-<main class="page">
-    <header class="page-header">
-        <h1>Command <em>center</em></h1>
-        <p class="subtitle">Oversee guests, inventory, and reservations at a glance.</p>
-    </header>
+<div class="container">
+    <h2>Admin Dashboard</h2>
 
-    <div class="stats-row">
-        <div class="stat-card">
-            <div class="stat-value" th:text="${users.size()}">0</div>
-            <div class="stat-label">Registered guests</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value" th:text="${rooms.size()}">0</div>
-            <div class="stat-label">Total suites</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value" th:text="${bookings.size()}">0</div>
-            <div class="stat-label">Active bookings</div>
-        </div>
+    <!-- Add Room -->
+    <div class="section">
+        <h3>Add Room</h3>
+        <form action="/admin/rooms/add" method="post">
+            <input type="text" name="roomId" placeholder="Room ID" required>
+            <input type="text" name="type" placeholder="Room Type" required>
+            <input type="number" name="price" placeholder="Price" required>
+            <input type="text" name="available" placeholder="true or false" required>
+            <button type="submit">Add Room</button>
+        </form>
     </div>
 
-    <div class="admin-grid">
-        <section class="section-block">
-            <div class="card card-glow">
-                <h2 style="margin-top:0;"><span class="section-icon">+</span> Add new suite</h2>
-                <form action="/admin/rooms/add" method="post" class="form-row">
-                    <div class="form-group">
-                        <label for="roomId">Suite ID</label>
-                        <input type="text" id="roomId" name="roomId" placeholder="R4" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="roomType">Category</label>
-                        <input type="text" id="roomType" name="roomType" placeholder="Penthouse" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pricePerNight">Nightly rate ($)</label>
-                        <input type="number" id="pricePerNight" name="pricePerNight" step="0.01" placeholder="199" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add suite</button>
-                </form>
-            </div>
-        </section>
-
-        <section class="section-block">
-            <div class="card" style="border-color: rgba(251, 113, 133, 0.15);">
-                <h2 style="margin-top:0; color: var(--danger);"><span class="section-icon">❌</span> Remove Guest Account</h2>
-                <form action="/admin/users/delete" method="post" class="form-row">
-                    <div class="form-group" style="flex: 2;">
-                        <label for="userId">Target Guest ID</label>
-                        <input type="text" id="userId" name="userId" placeholder="e.g. U1" required>
-                    </div>
-                    <button type="submit" class="btn btn-danger" style="padding: 0.9rem 1.5rem;">Delete Account</button>
-                </form>
-            </div>
-        </section>
-
-        <section class="section-block">
-            <h2><span class="section-icon">◎</span> Guests</h2>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="u : ${users}" th:if="${!#strings.isEmpty(u)}">
-                        <td th:text="${u.split(',')[0]}">U1</td>
-                        <td th:text="${u.split(',')[1]}">Name</td>
-                        <td th:text="${u.split(',')[2]}">email</td>
-                        <td>
-                            <span th:if="${u.split(',')[4] eq 'admin'}" class="badge badge-admin" th:text="${u.split(',')[4]}">admin</span>
-                            <span th:unless="${u.split(',')[4] eq 'admin'}" class="badge badge-customer" th:text="${u.split(',')[4]}">customer</span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="section-block">
-            <h2><span class="section-icon">◇</span> Inventory</h2>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>Rate</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="room : ${rooms}" th:if="${!#strings.isEmpty(room)}">
-                        <td th:text="${room.split(',')[0]}">R1</td>
-                        <td th:text="${room.split(',')[1]}">Suite</td>
-                        <td th:text="'$' + ${room.split(',')[2]}">$0</td>
-                        <td>
-                            <span th:if="${room.split(',')[3] eq 'true'}" class="badge badge-available">Open</span>
-                            <span th:unless="${room.split(',')[3] eq 'true'}" class="badge badge-unavailable">Closed</span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="section-block">
-            <h2><span class="section-icon">◈</span> Reservations</h2>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Ref</th>
-                        <th>Guest</th>
-                        <th>Suite</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="booking : ${bookings}" th:if="${!#strings.isEmpty(booking)}">
-                        <td th:text="${booking.split(',')[0]}">B1</td>
-                        <td th:text="${booking.split(',')[1]}">U1</td>
-                        <td th:text="${booking.split(',')[2]}">R1</td>
-                        <td th:text="${booking.split(',')[3]}">date</td>
-                        <td><span class="badge badge-confirmed" th:text="${booking.split(',')[4]}">status</span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+    <!-- Delete User -->
+    <div class="section">
+        <h3>Delete User</h3>
+        <form action="/admin/users/delete" method="post">
+            <input type="text" name="userId" placeholder="User ID" required>
+            <button type="submit">Delete User</button>
+        </form>
     </div>
 
-    <footer class="footer">
-        <p>© Grand Azure · Admin Console</p>
-    </footer>
-</main>
+    <!-- Users Table -->
+    <div class="section">
+        <h3>Users</h3>
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+
+            <tr th:each="u : ${users}">
+                <td th:text="${u.split(',')[0]}"></td>
+                <td th:text="${u.split(',')[1]}"></td>
+                <td th:text="${u.split(',')[2]}"></td>
+                <td th:text="${u.split(',')[4]}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Rooms Table -->
+    <div class="section">
+        <h3>Rooms</h3>
+        <table>
+            <tr>
+                <th>Room ID</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Available</th>
+            </tr>
+
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.split(',')[0]}"></td>
+                <td th:text="${room.split(',')[1]}"></td>
+                <td th:text="${room.split(',')[2]}"></td>
+                <td th:text="${room.split(',')[3]}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Bookings Table -->
+    <div class="section">
+        <h3>Bookings</h3>
+        <table>
+            <tr>
+                <th>Booking ID</th>
+                <th>User ID</th>
+                <th>Room ID</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+
+            <tr th:each="b : ${bookings}">
+                <td th:text="${b.split(',')[0]}"></td>
+                <td th:text="${b.split(',')[1]}"></td>
+                <td th:text="${b.split(',')[2]}"></td>
+                <td th:text="${b.split(',')[3]}"></td>
+                <td th:text="${b.split(',')[4]}"></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
 </body>
 </html>
