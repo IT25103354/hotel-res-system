@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Room</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Room</h2>
+
+    <form action="/rooms/add" method="post">
+
+        <input type="text" name="roomId" placeholder="Room ID" required>
+
+        <input type="text" name="type" placeholder="Room Type" required>
+
+        <input type="number" step="0.01" name="price" placeholder="Price" required>
+
+        <input type="text" name="available" placeholder="true or false" required>
+
+        <button type="submit">Add Room</button>
+    </form>
+</div>
+
+</body>
+</html>
