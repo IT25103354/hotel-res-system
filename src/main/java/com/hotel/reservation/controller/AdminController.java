@@ -12,9 +12,6 @@ public class AdminController {
         this.adminService = new AdminService();
     }
 
-    // =========================================================================
-    // 👤 USER OPERATIONS
-    // =========================================================================
 
     // Called by the UI layer to read lines and print all users
     public void viewAllUsers() {
@@ -26,9 +23,6 @@ public class AdminController {
         adminService.deleteUser(userId);
     }
 
-    // =========================================================================
-    // 🔑 ROOM OPERATIONS
-    // =========================================================================
 
     // Called by the UI layer to print raw room entries out of the text database
     public void viewAllRooms() {
@@ -53,9 +47,6 @@ public class AdminController {
         adminService.updateRoomDetails(roomId, newPrice, isAvailable);
     }
 
-    // =========================================================================
-    // 🗓️ BOOKING OPERATIONS
-    // =========================================================================
 
     // Called by the UI layer to pull log lines and print all system bookings
     public void viewAllBookings() {
