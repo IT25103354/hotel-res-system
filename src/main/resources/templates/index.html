@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title}, ~{::section})">
+
+<head>
+    <title>Home</title>
+</head>
+
+<section>
+
+    <!-- Welcome Section -->
+    <div class="mb-10">
+        <h2 class="text-4xl font-bold mb-2">
+            Welcome to Hotel Reservation System
+        </h2>
+        <p class="text-gray-400">
+            Manage rooms, bookings, and users efficiently
+        </p>
+    </div>
+
+    <!-- Action Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Login -->
+        <a href="/login" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold mb-2">Login</h3>
+            <p class="text-gray-400">Access your account</p>
+        </a>
+
+        <!-- Register -->
+        <a href="/register" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold mb-2">Register</h3>
+            <p class="text-gray-400">Create a new account</p>
+        </a>
+
+        <!-- Rooms -->
+        <a href="/rooms" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold mb-2">View Rooms</h3>
+            <p class="text-gray-400">Browse available rooms</p>
+        </a>
+
+        <!-- Booking -->
+        <a href="/booking" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold mb-2">Book Room</h3>
+            <p class="text-gray-400">Create or manage bookings</p>
+        </a>
+
+        <!-- Admin -->
+        <a href="/admin" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold mb-2">Admin Panel</h3>
+            <p class="text-gray-400">Manage system data</p>
+        </a>
+
+    </div>
+
+</section>
+
+</html>
