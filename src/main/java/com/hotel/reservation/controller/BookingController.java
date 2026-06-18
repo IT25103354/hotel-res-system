@@ -14,7 +14,7 @@ public class BookingController {
     @GetMapping("/booking")
     public String bookingPage(Model model) {
         model.addAttribute("bookings", bookingService.getBookings());
-        return "booking";
+        return "bookings";
     }
 
     @PostMapping("/booking/create")
