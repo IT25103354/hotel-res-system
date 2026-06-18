@@ -10,18 +10,12 @@ public class AdminService {
     private static final String ROOMS_FILE = "data/rooms.txt";
     private static final String BOOKINGS_FILE = "data/bookings.txt";
 
-    // =========================================================================
-    // 🔑 SPRINT 1 & 2: ROLE-BASED ACCESS CONTROL
-    // =========================================================================
 
     public boolean isAdmin(String userRole) {
         if (userRole == null) return false;
         return "admin".equalsIgnoreCase(userRole.trim());
     }
 
-    // =========================================================================
-    // 👤 SPRINT 2: USER MANAGEMENT (CRUD Operations)
-    // =========================================================================
 
     public void viewAllUsers() {
         System.out.println("--- System Users List ---");
@@ -80,9 +74,6 @@ public class AdminService {
         }
     }
 
-    // =========================================================================
-    // 🔑 SPRINT 2: ROOM MANAGEMENT (CRUD Operations)
-    // =========================================================================
 
     public void addRoom(String roomId, String roomType, double pricePerNight) {
         if (roomId == null || roomType == null) {
@@ -90,7 +81,6 @@ public class AdminService {
             return;
         }
 
-        // Format data as a clean comma-separated text line (Default availability to true)
         String roomDataLine = roomId + "," + roomType + "," + pricePerNight + ",true";
 
         FileHandler.writeToFile(ROOMS_FILE, roomDataLine);
@@ -123,7 +113,6 @@ public class AdminService {
         }
 
         if (found) {
-            // FIX: Wipes old file so appending doesn't double-up the text data layout
             try {
                 java.nio.file.Files.write(
                         java.nio.file.Paths.get(ROOMS_FILE),
@@ -144,9 +133,6 @@ public class AdminService {
         }
     }
 
-    // =========================================================================
-    // 🗓️ SPRINT 2: SYSTEM BOOKING CONTROL
-    // =========================================================================
 
     public void viewAllBookings() {
         System.out.println("--- System Bookings Log ---");
