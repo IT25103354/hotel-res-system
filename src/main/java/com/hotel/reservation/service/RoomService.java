@@ -1,4 +1,5 @@
 package com.hotel.reservation.service;
+
 import com.hotel.reservation.model.Room;
 import com.hotel.reservation.util.FileHandler;
 import java.util.ArrayList;
@@ -6,9 +7,9 @@ import java.util.ArrayList;
 public class RoomService {
 
     private final String FILE_NAME = "data/rooms.txt";
+
     // Add room
     public void addRoom(Room room) {
-
         String data = room.getRoomId() + "," +
                 room.getType() + "," +
                 room.getPrice() + "," +
@@ -19,23 +20,26 @@ public class RoomService {
 
     // Get all rooms
     public ArrayList<Room> getRooms() {
-
         ArrayList<String> lines = FileHandler.readFromFile(FILE_NAME);
-
         ArrayList<Room> rooms = new ArrayList<>();
 
         for (String line : lines) {
+            // FIX 4: Guard against blank/trailing lines — without this,
+            // split(",") on an empty string gives data[0]="" and data[2] throws
+            // ArrayIndexOutOfBoundsException inside Double.parseDouble()
+            if (line.trim().isEmpty()) continue;
 
             String[] data = line.split(",");
 
-            Room room = new Room(
-                    data[0],
-                    data[1],
-                    Double.parseDouble(data[2]),
-                    Boolean.parseBoolean(data[3])
-            );
-
-            rooms.add(room);
+            if (data.length >= 4) {
+                Room room = new Room(
+                        data[0],
+                        data[1],
+                        Double.parseDouble(data[2]),
+                        Boolean.parseBoolean(data[3])
+                );
+                rooms.add(room);
+            }
         }
 
         return rooms;
@@ -43,25 +47,21 @@ public class RoomService {
 
     // Update room
     public void updateRoom(String roomId, Room updatedRoom) {
-
         ArrayList<String> lines = FileHandler.readFromFile(FILE_NAME);
-
         ArrayList<String> updatedLines = new ArrayList<>();
 
         for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
 
             String[] data = line.split(",");
 
             if (data[0].equals(roomId)) {
-
                 String updatedData =
                         updatedRoom.getRoomId() + "," +
                                 updatedRoom.getType() + "," +
                                 updatedRoom.getPrice() + "," +
                                 updatedRoom.isAvailable();
-
                 updatedLines.add(updatedData);
-
             } else {
                 updatedLines.add(line);
             }
@@ -72,12 +72,11 @@ public class RoomService {
 
     // Delete room
     public void deleteRoom(String roomId) {
-
         ArrayList<String> lines = FileHandler.readFromFile(FILE_NAME);
-
         ArrayList<String> updatedLines = new ArrayList<>();
 
         for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
 
             String[] data = line.split(",");
 
