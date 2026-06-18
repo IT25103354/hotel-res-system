@@ -14,7 +14,7 @@ public class AdminService {
     private static final String ROOMS_FILE = "data/rooms.txt";
     private static final String BOOKINGS_FILE = "data/bookings.txt";
 
-    //  GET USERS
+    //  GET USER
     public List<User> getUsers() {
         List<User> userList = new ArrayList<>();
         ArrayList<String> lines = FileHandler.readFromFile(USERS_FILE);
