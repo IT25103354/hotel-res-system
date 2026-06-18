@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title}, ~{::section})">
+
+<head>
+    <title>Admin Panel</title>
+</head>
+
+<section>
+
+    <!-- Title -->
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold">Admin Dashboard</h2>
+        <p class="text-gray-400">Manage system data</p>
+    </div>
+
+    <!-- USERS TABLE -->
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-10">
+        <h3 class="text-xl font-semibold mb-4">Users</h3>
+
+        <table class="w-full text-left">
+            <thead class="bg-gray-700">
+            <tr>
+                <th class="p-3">User ID</th>
+                <th class="p-3">Name</th>
+                <th class="p-3">Email</th>
+                <th class="p-3">Role</th>
+                <th class="p-3">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="user : ${users}" class="border-b border-gray-600">
+
+                <td class="p-3" th:text="${user.userId}"></td>
+                <td class="p-3" th:text="${user.name}"></td>
+                <td class="p-3" th:text="${user.email}"></td>
+                <td class="p-3" th:text="${user.role}"></td>
+
+                <td class="p-3">
+                    <form method="post" action="/admin/users/delete">
+                        <input type="hidden" name="userId" th:value="${user.userId}">
+                        <button class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ROOMS TABLE -->
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-10">
+        <h3 class="text-xl font-semibold mb-4">Rooms</h3>
+
+        <table class="w-full text-left">
+            <thead class="bg-gray-700">
+            <tr>
+                <th class="p-3">Room ID</th>
+                <th class="p-3">Type</th>
+                <th class="p-3">Price</th>
+                <th class="p-3">Available</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="room : ${rooms}" class="border-b border-gray-600">
+
+                <td class="p-3" th:text="${room.roomId}"></td>
+                <td class="p-3" th:text="${room.type}"></td>
+                <td class="p-3" th:text="${room.price}"></td>
+                <td class="p-3"
+                    th:text="${room.available} ? 'Yes' : 'No'">
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BOOKINGS TABLE -->
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Bookings</h3>
+
+        <table class="w-full text-left">
+            <thead class="bg-gray-700">
+            <tr>
+                <th class="p-3">Booking ID</th>
+                <th class="p-3">User ID</th>
+                <th class="p-3">Room ID</th>
+                <th class="p-3">Date</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="booking : ${bookings}" class="border-b border-gray-600">
+
+                <td class="p-3" th:text="${booking.bookingId}"></td>
+                <td class="p-3" th:text="${booking.userId}"></td>
+                <td class="p-3" th:text="${booking.roomId}"></td>
+                <td class="p-3" th:text="${booking.date}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+</html>
