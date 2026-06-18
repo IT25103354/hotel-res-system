@@ -1,148 +1,119 @@
 package com.hotel.reservation.service;
 
+import com.hotel.reservation.model.User;
+import com.hotel.reservation.model.Room;
+import com.hotel.reservation.model.Booking;
 import com.hotel.reservation.util.FileHandler;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminService {
 
-    // Syncing file paths to match your team's "data/" directory structure
     private static final String USERS_FILE = "data/users.txt";
     private static final String ROOMS_FILE = "data/rooms.txt";
     private static final String BOOKINGS_FILE = "data/bookings.txt";
 
+    //  GET USERS
+    public List<User> getUsers() {
+        List<User> userList = new ArrayList<>();
+        ArrayList<String> lines = FileHandler.readFromFile(USERS_FILE);
 
-    public boolean isAdmin(String userRole) {
-        if (userRole == null) return false;
-        return "admin".equalsIgnoreCase(userRole.trim());
+        for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
+
+            String[] data = line.split(",");
+
+            if (data.length >= 5) {
+                userList.add(new User(
+                        data[0], data[1], data[2], data[3], data[4]
+                ));
+            }
+        }
+        return userList;
     }
 
+    //  GET ROOMS
+    public List<Room> getRooms() {
+        List<Room> roomList = new ArrayList<>();
+        ArrayList<String> lines = FileHandler.readFromFile(ROOMS_FILE);
 
-    public void viewAllUsers() {
-        System.out.println("--- System Users List ---");
-        ArrayList<String> users = FileHandler.readFromFile(USERS_FILE);
-        if (users.isEmpty()) {
-            System.out.println("No users registered in the system.");
-            return;
+        for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
+
+            String[] data = line.split(",");
+
+            if (data.length >= 4) {
+                roomList.add(new Room(
+                        data[0],
+                        data[1],
+                        Double.parseDouble(data[2]),
+                        Boolean.parseBoolean(data[3])
+                ));
+            }
         }
-        for (int i = 0; i < users.size(); i++) {
-            System.out.println(users.get(i));
-        }
+        return roomList;
     }
 
+    //  GET BOOKINGS
+    public List<Booking> getBookings() {
+        List<Booking> bookingList = new ArrayList<>();
+        ArrayList<String> lines = FileHandler.readFromFile(BOOKINGS_FILE);
+
+        for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
+
+            String[] data = line.split(",");
+
+            if (data.length >= 5) {
+                bookingList.add(new Booking(
+                        data[0], // bookingId
+                        data[1], // userId
+                        data[2], // roomId
+                        data[3], // date
+                        data[4]  // status
+                ));
+            }
+        }
+        return bookingList;
+    }
+
+    //  DELETE USER
     public void deleteUser(String userId) {
-        if (userId == null || userId.isEmpty()) {
-            System.out.println("Invalid User ID.");
-            return;
-        }
-
         ArrayList<String> allUsers = FileHandler.readFromFile(USERS_FILE);
-        ArrayList<String> remainingUsers = new ArrayList<>();
-        boolean found = false;
+        ArrayList<String> updated = new ArrayList<>();
 
-        // Separate the remaining users from the one being deleted
-        for (int i = 0; i < allUsers.size(); i++) {
-            String line = allUsers.get(i);
+        for (String line : allUsers) {
             if (line.trim().isEmpty()) continue;
 
             String[] data = line.split(",");
-            if (data.length > 0 && data[0].trim().equals(userId.trim())) {
-                found = true; // Skip this user line (deleting it)
-            } else {
-                remainingUsers.add(line); // Keep everyone else
+            if (!data[0].equals(userId)) {
+                updated.add(line);
             }
         }
 
-        if (found) {
-            // FIX: Safely wipe and completely overwrite the file with the clean data
-            try {
-                java.nio.file.Files.write(
-                        java.nio.file.Paths.get(USERS_FILE),
-                        new byte[0],
-                        java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
-                );
-
-                // Write the remaining users back line by line using your FileHandler
-                for (int i = 0; i < remainingUsers.size(); i++) {
-                    FileHandler.writeToFile(USERS_FILE, remainingUsers.get(i));
-                }
-                System.out.println("Successfully deleted user ID: " + userId);
-            } catch (Exception e) {
-                System.out.println("Error wiping file for user deletion.");
-            }
-        } else {
-            System.out.println("User ID " + userId + " not found in the system.");
-        }
+        FileHandler.overwriteFile(USERS_FILE, updated);
     }
 
-
-    public void addRoom(String roomId, String roomType, double pricePerNight) {
-        if (roomId == null || roomType == null) {
-            System.out.println("Invalid room data provided.");
-            return;
-        }
-
-        String roomDataLine = roomId + "," + roomType + "," + pricePerNight + ",true";
-
-        FileHandler.writeToFile(ROOMS_FILE, roomDataLine);
-        System.out.println("Successfully added Room: " + roomId + " [" + roomType + "]");
+    //  ADD ROOM
+    public void addRoom(String roomId, String type, double price) {
+        String room = roomId + "," + type + "," + price + ",true";
+        FileHandler.writeToFile(ROOMS_FILE, room);
     }
 
-    public void updateRoomDetails(String roomId, double newPrice, boolean isAvailable) {
-        if (roomId == null || roomId.isEmpty()) {
-            System.out.println("Invalid Room ID.");
-            return;
-        }
+    //  UPDATE ROOM
+    public void updateRoomDetails(String roomId, double price, boolean available) {
+        ArrayList<String> rooms = FileHandler.readFromFile(ROOMS_FILE);
 
-        ArrayList<String> allRooms = FileHandler.readFromFile(ROOMS_FILE);
-        boolean found = false;
+        for (int i = 0; i < rooms.size(); i++) {
+            String[] data = rooms.get(i).split(",");
 
-        // Track changes manually in our tracking list
-        for (int i = 0; i < allRooms.size(); i++) {
-            String line = allRooms.get(i);
-            if (line.trim().isEmpty()) continue;
-
-            String[] data = line.split(",");
-            if (data.length >= 2 && data[0].trim().equals(roomId.trim())) {
-                String roomType = data[1].trim();
-                // Replace the element at index i with the updated comma-separated values
-                String updatedLine = roomId + "," + roomType + "," + newPrice + "," + isAvailable;
-                allRooms.set(i, updatedLine);
-                found = true;
+            if (data[0].equals(roomId)) {
+                rooms.set(i, roomId + "," + data[1] + "," + price + "," + available);
                 break;
             }
         }
 
-        if (found) {
-            try {
-                java.nio.file.Files.write(
-                        java.nio.file.Paths.get(ROOMS_FILE),
-                        new byte[0],
-                        java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
-                );
-
-                // Re-write the updated list back into storage line by line safely
-                for (int i = 0; i < allRooms.size(); i++) {
-                    FileHandler.writeToFile(ROOMS_FILE, allRooms.get(i));
-                }
-                System.out.println("Successfully updated details for Room ID: " + roomId);
-            } catch (Exception e) {
-                System.out.println("Error wiping file for room update.");
-            }
-        } else {
-            System.out.println("Room ID " + roomId + " not found.");
-        }
-    }
-
-
-    public void viewAllBookings() {
-        System.out.println("--- System Bookings Log ---");
-        ArrayList<String> bookings = FileHandler.readFromFile(BOOKINGS_FILE);
-        if (bookings.isEmpty()) {
-            System.out.println("No reservations found in the system.");
-            return;
-        }
-        for (int i = 0; i < bookings.size(); i++) {
-            System.out.println(bookings.get(i));
-        }
+        FileHandler.overwriteFile(ROOMS_FILE, rooms);
     }
 }
