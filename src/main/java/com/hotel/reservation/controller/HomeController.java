@@ -9,12 +9,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "redirect:/login.html";
+        return "redirect:/login.";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 }
