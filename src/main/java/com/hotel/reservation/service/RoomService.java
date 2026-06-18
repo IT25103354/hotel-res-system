@@ -24,9 +24,7 @@ public class RoomService {
         ArrayList<Room> rooms = new ArrayList<>();
 
         for (String line : lines) {
-            // FIX 4: Guard against blank/trailing lines — without this,
-            // split(",") on an empty string gives data[0]="" and data[2] throws
-            // ArrayIndexOutOfBoundsException inside Double.parseDouble()
+
             if (line.trim().isEmpty()) continue;
 
             String[] data = line.split(",");
@@ -86,5 +84,16 @@ public class RoomService {
         }
 
         FileHandler.overwriteFile(FILE_NAME, updatedLines);
+    }
+
+    public ArrayList<Room> getAvailableRooms() {
+        ArrayList<Room> all = getRooms();
+        ArrayList<Room> available = new ArrayList<>();
+        for (Room room : all) {
+            if (room.isAvailable()) {
+                available.add(room);
+            }
+        }
+        return available;
     }
 }

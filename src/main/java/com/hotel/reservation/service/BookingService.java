@@ -2,6 +2,7 @@ package com.hotel.reservation.service;
 
 import com.hotel.reservation.model.Booking;
 import com.hotel.reservation.util.FileHandler;
+import com.hotel.reservation.model.Room;
 
 import java.util.ArrayList;
 
@@ -14,8 +15,18 @@ public class BookingService {
     public void createBooking(Booking booking) {
 
         boolean roomAvailable = false;
+        System.out.println("Requested Room: " + booking.getRoomId());
+
         for (var room : roomService.getRooms()) {
-            if (room.getRoomId().equals(booking.getRoomId()) && room.isAvailable()) {
+
+            System.out.println(
+                    "RoomID=" + room.getRoomId()
+                            + " Available=" + room.isAvailable()
+            );
+
+            if (room.getRoomId().equals(booking.getRoomId())
+                    && room.isAvailable()) {
+
                 roomAvailable = true;
                 break;
             }
@@ -74,19 +85,32 @@ public class BookingService {
 
 
     public void cancelBooking(String bookingId) {
-
         ArrayList<String> lines = FileHandler.readFromFile("data/bookings.txt");
         ArrayList<String> updatedLines = new ArrayList<>();
+        String cancelledRoomId = null;
 
         for (String line : lines) {
+            if (line.trim().isEmpty()) continue;
             String[] data = line.split(",");
-
-            if (!data[0].equals(bookingId)) {
+            if (data[0].equals(bookingId)) {
+                cancelledRoomId = data[2]; // grab the roomId before removing
+            } else {
                 updatedLines.add(line);
             }
         }
 
         FileHandler.overwriteFile("data/bookings.txt", updatedLines);
+
+        // Set the room back to available
+        if (cancelledRoomId != null) {
+            for (Room room : roomService.getRooms()) {
+                if (room.getRoomId().equals(cancelledRoomId)) {
+                    room.setAvailable(true);
+                    roomService.updateRoom(room.getRoomId(), room);
+                    break;
+                }
+            }
+        }
     }
 
 

@@ -39,10 +39,16 @@
             </p>
 
             <!-- Book Button -->
-            <a href="/booking"
+            <a th:if="${room.available}" href="/booking"
                class="block text-center bg-blue-600 hover:bg-blue-700 p-2 rounded-lg">
                 Book Room
             </a>
+
+            <!-- Unavailable label — show if not available -->
+            <p th:unless="${room.available}"
+               class="block text-center bg-gray-600 text-gray-400 p-2 rounded-lg cursor-not-allowed">
+                Not Available
+            </p>
 
         </div>
 

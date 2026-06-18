@@ -1,1 +1,2 @@
 6767,test,divyanthacodplayer@gmail.com,divyantha67,Guest
+admin,admin,admintest@gmail.com,divyantha67,Admin

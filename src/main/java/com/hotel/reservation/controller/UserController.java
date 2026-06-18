@@ -26,7 +26,7 @@ public class UserController {
         User user = userService.loginUser(email, password);
 
         if (user != null) {
-            session.setAttribute("user", user); // store logged-in user
+            session.setAttribute("user", user);
             return "redirect:/";
         } else {
             model.addAttribute("error", "Invalid email or password");
@@ -41,9 +41,8 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, Model model) {
-
+        user.setRole("Guest");
         boolean success = userService.registerUser(user);
-
         if (success) {
             return "redirect:/login";
         } else {
@@ -51,6 +50,8 @@ public class UserController {
             return "register";
         }
     }
+
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
