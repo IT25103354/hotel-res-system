@@ -2,6 +2,7 @@ package com.hotel.reservation.controller;
 
 import com.hotel.reservation.model.User;
 import com.hotel.reservation.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,13 @@ public class UserController {
     @PostMapping("/login")
     public String loginUser(@RequestParam String email,
                             @RequestParam String password,
+                            HttpSession session,
                             Model model) {
 
         User user = userService.loginUser(email, password);
 
         if (user != null) {
+            session.setAttribute("user", user); // store logged-in user
             return "redirect:/";
         } else {
             model.addAttribute("error", "Invalid email or password");
@@ -47,5 +50,11 @@ public class UserController {
             model.addAttribute("error", "User already exists");
             return "register";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 }
