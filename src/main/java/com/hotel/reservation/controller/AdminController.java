@@ -1,6 +1,8 @@
 package com.hotel.reservation.controller;
 
+import com.hotel.reservation.model.User;
 import com.hotel.reservation.service.AdminService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +13,11 @@ public class AdminController {
     private AdminService adminService = new AdminService();
 
     @GetMapping("/admin")
-    public String adminPage(Model model) {
+    public String adminPage(HttpSession session, Model model) {
+        User user = SessionHelper.getLoggedInUser(session);
+        if (user == null || !user.getRole().equals("Admin")) {
+            return "redirect:/login";
+        }
         model.addAttribute("users", adminService.getUsers());
         model.addAttribute("rooms", adminService.getRooms());
         model.addAttribute("bookings", adminService.getBookings());

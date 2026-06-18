@@ -13,21 +13,6 @@ public class BookingService {
 
     public void createBooking(Booking booking) {
 
-
-        boolean userExists = false;
-        for (var user : userService.getUsers()) {
-            if (user.getUserId().equals(booking.getUserId())) {
-                userExists = true;
-                break;
-            }
-        }
-
-        if (!userExists) {
-            System.out.println("Booking failed: User does not exist.");
-            return;
-        }
-
-
         boolean roomAvailable = false;
         for (var room : roomService.getRooms()) {
             if (room.getRoomId().equals(booking.getRoomId()) && room.isAvailable()) {
@@ -48,6 +33,15 @@ public class BookingService {
                 booking.getStatus();
 
         FileHandler.writeToFile("data/bookings.txt", data);
+
+        // Mark room as unavailable
+        for (var room : roomService.getRooms()) {
+            if (room.getRoomId().equals(booking.getRoomId())) {
+                room.setAvailable(false);
+                roomService.updateRoom(room.getRoomId(), room);
+                break;
+            }
+        }
 
         System.out.println("Booking created successfully!");
     }
