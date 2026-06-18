@@ -1,6 +1,5 @@
 package com.hotel.reservation.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,11 +9,5 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
         return "index";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login";
     }
 }
