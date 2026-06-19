@@ -110,3 +110,94 @@
 </section>
 
 </html>
+
+
+
+
+
+<!-- ROOMS TABLE -->
+<div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-10">
+    <h3 class="text-xl font-semibold mb-4">Rooms</h3>
+
+    <table class="w-full text-left mb-6">
+        <thead class="bg-gray-700">
+        <tr>
+            <th class="p-3">Room ID</th>
+            <th class="p-3">Type</th>
+            <th class="p-3">Price</th>
+            <th class="p-3">Available</th>
+            <th class="p-3">Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="room : ${rooms}" class="border-b border-gray-600">
+
+            <td class="p-3" th:text="${room.roomId}"></td>
+            <td class="p-3" th:text="${room.type}"></td>
+            <td class="p-3" th:text="${room.price}"></td>
+            <td class="p-3" th:text="${room.available} ? 'Yes' : 'No'"></td>
+
+            <td class="p-3">
+                <div class="flex gap-2 items-center">
+
+                    <!-- Update form -->
+                    <form method="post" action="/admin/rooms/update" class="flex gap-1 items-center">
+                        <input type="hidden" name="roomId" th:value="${room.roomId}">
+                        <input type="number" step="0.01" name="price" th:value="${room.price}"
+                               class="w-20 p-1 rounded bg-gray-700 text-white border border-gray-600">
+                        <select name="available" class="p-1 rounded bg-gray-700 text-white border border-gray-600">
+                            <option value="true" th:selected="${room.available}">Yes</option>
+                            <option value="false" th:selected="${!room.available}">No</option>
+                        </select>
+                        <button class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded">
+                            Update
+                        </button>
+                    </form>
+
+                    <!-- Delete form -->
+                    <form method="post" action="/admin/rooms/delete">
+                        <input type="hidden" name="roomId" th:value="${room.roomId}">
+                        <button class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
+                            Delete
+                        </button>
+                    </form>
+
+                </div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- ADD ROOM FORM -->
+    <div class="bg-gray-700 p-4 rounded-lg">
+        <h4 class="text-lg font-semibold mb-3">Add New Room</h4>
+        <form method="post" action="/admin/rooms/add" class="flex flex-wrap gap-3 items-end">
+
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Room ID</label>
+                <input type="text" name="roomId" required
+                       class="p-2 rounded bg-gray-800 text-white border border-gray-600">
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Type</label>
+                <input type="text" name="type" required
+                       class="p-2 rounded bg-gray-800 text-white border border-gray-600">
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Price</label>
+                <input type="number" step="0.01" name="price" required
+                       class="p-2 rounded bg-gray-800 text-white border border-gray-600">
+            </div>
+
+            <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">
+                Add Room
+            </button>
+
+        </form>
+    </div>
+
+</div>

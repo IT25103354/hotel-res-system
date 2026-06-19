@@ -45,4 +45,12 @@ public class AdminController {
         adminService.updateRoomDetails(roomId, price, available);
         return "redirect:/admin";
     }
+
+    // dlete here below if issue
+    @PostMapping("/admin/rooms/delete")
+    public String deleteRoom(@RequestParam String roomId) {
+        adminService.deleteRoom(roomId);
+        return "redirect:/admin";
+    }
+
 }

@@ -116,4 +116,20 @@ public class AdminService {
 
         FileHandler.overwriteFile(ROOMS_FILE, rooms);
     }
+    //  DELETE ROOM delete here below if issue
+    public void deleteRoom(String roomId) {
+        ArrayList<String> rooms = FileHandler.readFromFile(ROOMS_FILE);
+        ArrayList<String> updated = new ArrayList<>();
+
+        for (String line : rooms) {
+            if (line.trim().isEmpty()) continue;
+
+            String[] data = line.split(",");
+            if (!data[0].equals(roomId)) {
+                updated.add(line);
+            }
+        }
+
+        FileHandler.overwriteFile(ROOMS_FILE, updated);
+    }
 }

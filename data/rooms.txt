@@ -1,4 +1,5 @@
 R001,Single Room,50.0,true
-R002,Double Room,80.0,true
+R002,Double Room,80.0,false
 R003,Twin Room,75.0,true
 R004,Family Suite,120.0,true
+R005,damn,50.0,true
