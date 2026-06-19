@@ -1,5 +1,5 @@
 R001,Single Room,50.0,true
-R002,Double Room,80.0,false
+R002,Double Room,80.0,true
 R003,Twin Room,75.0,true
 R004,Family Suite,120.0,true
 R006,Triple Room / Quad Room,10000.0,true
