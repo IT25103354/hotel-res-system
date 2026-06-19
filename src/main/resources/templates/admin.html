@@ -8,66 +8,20 @@
 
 <section>
 
-    <div class="mb-10">
-        <p class="text-brass text-xs font-semibold uppercase tracking-[0.2em] mb-3">Back Office</p>
-        <h2 class="font-display text-4xl font-semibold text-cream mb-2">Admin Dashboard</h2>
-        <p class="text-slate">Manage system data</p>
+    <div class="max-w-7xl mx-auto px-6 pt-10 pb-8">
+        <h2 class="text-3xl font-bold text-white" style="font-family: 'Georgia', serif;">Admin Dashboard</h2>
+        <p class="text-gray-300" style="font-family: 'Georgia', serif;">Manage system data</p>
     </div>
 
-    <!-- STATS OVERVIEW -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+    <div class="max-w-7xl mx-auto px-6 pb-16">
 
-        <div class="bg-surface border border-white/5 rounded-xl p-5 flex items-center gap-4">
-            <div class="w-11 h-11 rounded-lg bg-brass/10 flex items-center justify-center text-brass shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-            </div>
-            <div>
-                <p class="font-display text-2xl text-cream" th:text="${users.size()}">0</p>
-                <p class="text-slate text-xs uppercase tracking-wide">Total Users</p>
-            </div>
-        </div>
+        <!-- USERS TABLE -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg mb-10">
+            <h3 class="text-xl font-semibold mb-4 text-white" style="font-family: 'Georgia', serif;">Users</h3>
 
-        <div class="bg-surface border border-white/5 rounded-xl p-5 flex items-center gap-4">
-            <div class="w-11 h-11 rounded-lg bg-brass/10 flex items-center justify-center text-brass shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-                </svg>
-            </div>
-            <div>
-                <p class="font-display text-2xl text-cream" th:text="${rooms.size()}">0</p>
-                <p class="text-slate text-xs uppercase tracking-wide">Total Rooms</p>
-            </div>
-        </div>
-
-        <div class="bg-surface border border-white/5 rounded-xl p-5 flex items-center gap-4">
-            <div class="w-11 h-11 rounded-lg bg-brass/10 flex items-center justify-center text-brass shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                </svg>
-            </div>
-            <div>
-                <p class="font-display text-2xl text-cream" th:text="${bookings.size()}">0</p>
-                <p class="text-slate text-xs uppercase tracking-wide">Total Bookings</p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- USERS -->
-    <div class="bg-surface border border-white/5 rounded-xl p-6 mb-10">
-        <div class="flex items-center gap-2 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5 text-brass">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-            </svg>
-            <h3 class="font-display text-lg text-cream">Users</h3>
-        </div>
-
-        <div class="overflow-x-auto rounded-lg border border-white/5">
-            <table class="w-full text-left">
-                <thead>
-                <tr class="bg-ink/40 text-slate text-xs uppercase tracking-wide">
+            <table class="w-full text-left" style="font-family: 'Georgia', serif;">
+                <thead class="bg-white bg-opacity-10">
+                <tr>
                     <th class="p-3">User ID</th>
                     <th class="p-3">Name</th>
                     <th class="p-3">Email</th>
@@ -76,17 +30,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${users}" class="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
-                    <td class="p-3 text-cream font-medium" th:text="${user.userId}"></td>
-                    <td class="p-3 text-cream" th:text="${user.name}"></td>
-                    <td class="p-3 text-slate" th:text="${user.email}"></td>
-                    <td class="p-3">
-                        <span class="text-xs font-semibold px-2 py-1 rounded-full bg-brass/10 text-brass" th:text="${user.role}"></span>
-                    </td>
+                <tr th:each="user : ${users}"
+                    class="border-b border-white border-opacity-10 hover:bg-white hover:bg-opacity-5 transition">
+                    <td class="p-3" th:text="${user.userId}"></td>
+                    <td class="p-3" th:text="${user.name}"></td>
+                    <td class="p-3" th:text="${user.email}"></td>
+                    <td class="p-3" th:text="${user.role}"></td>
                     <td class="p-3">
                         <form method="post" action="/admin/users/delete">
                             <input type="hidden" name="userId" th:value="${user.userId}">
-                            <button class="border border-terracotta/40 text-terracotta hover:bg-terracotta/10 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors">
+                            <button class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition"
+                                    style="font-family: 'Georgia', serif;">
                                 Delete
                             </button>
                         </form>
@@ -95,21 +49,14 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
-    <!-- ROOMS -->
-    <div class="bg-surface border border-white/5 rounded-xl p-6 mb-10">
-        <div class="flex items-center gap-2 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5 text-brass">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-            </svg>
-            <h3 class="font-display text-lg text-cream">Rooms</h3>
-        </div>
+        <!-- ROOMS TABLE -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg mb-10">
+            <h3 class="text-xl font-semibold mb-4 text-white" style="font-family: 'Georgia', serif;">Rooms</h3>
 
-        <div class="overflow-x-auto rounded-lg border border-white/5 mb-6">
-            <table class="w-full text-left">
-                <thead>
-                <tr class="bg-ink/40 text-slate text-xs uppercase tracking-wide">
+            <table class="w-full text-left mb-6" style="font-family: 'Georgia', serif;">
+                <thead class="bg-white bg-opacity-10">
+                <tr>
                     <th class="p-3">Room ID</th>
                     <th class="p-3">Type</th>
                     <th class="p-3">Price</th>
@@ -118,93 +65,85 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="room : ${rooms}" class="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
-                    <td class="p-3 text-cream font-medium" th:text="${room.roomId}"></td>
-                    <td class="p-3 text-slate" th:text="${room.type}"></td>
-                    <td class="p-3 text-cream" th:text="'$' + ${room.price}"></td>
+                <tr th:each="room : ${rooms}"
+                    class="border-b border-white border-opacity-10 hover:bg-white hover:bg-opacity-5 transition">
+                    <td class="p-3" th:text="${room.roomId}"></td>
+                    <td class="p-3" th:text="${room.type}"></td>
+                    <td class="p-3" th:text="${room.price}"></td>
+                    <td class="p-3" th:text="${room.available} ? 'Yes' : 'No'"></td>
                     <td class="p-3">
-                        <span class="text-xs font-semibold px-2 py-1 rounded-full"
-                              th:classappend="${room.available} ? 'bg-sage/10 text-sage' : 'bg-terracotta/10 text-terracotta'"
-                              th:text="${room.available} ? 'Yes' : 'No'">
-                        </span>
-                    </td>
-                    <td class="p-3">
-                        <div class="flex gap-2 items-center flex-wrap">
-
-                            <form method="post" action="/admin/rooms/update" class="flex gap-1.5 items-center">
+                        <div class="flex gap-2 items-center">
+                            <form method="post" action="/admin/rooms/update" class="flex gap-1 items-center">
                                 <input type="hidden" name="roomId" th:value="${room.roomId}">
                                 <input type="number" step="0.01" name="price" th:value="${room.price}"
-                                       class="w-20 px-2 py-1.5 rounded-lg bg-ink border border-white/10 text-cream text-sm focus:outline-none focus:ring-1 focus:ring-brass">
+                                       style="font-family: 'Georgia', serif;"
+                                       class="w-20 p-1 rounded bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
                                 <select name="available"
-                                        class="px-2 py-1.5 rounded-lg bg-ink border border-white/10 text-cream text-sm focus:outline-none focus:ring-1 focus:ring-brass">
-                                    <option value="true" th:selected="${room.available}">Yes</option>
-                                    <option value="false" th:selected="${!room.available}">No</option>
+                                        style="font-family: 'Georgia', serif;"
+                                        class="p-1 rounded bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                                    <option value="true" class="bg-gray-800" th:selected="${room.available}">Yes</option>
+                                    <option value="false" class="bg-gray-800" th:selected="${!room.available}">No</option>
                                 </select>
-                                <button class="bg-surface2 border border-white/10 hover:border-brass/40 text-cream rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors">
+                                <button class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded transition"
+                                        style="font-family: 'Georgia', serif;">
                                     Update
                                 </button>
                             </form>
-
                             <form method="post" action="/admin/rooms/delete">
                                 <input type="hidden" name="roomId" th:value="${room.roomId}">
-                                <button class="border border-terracotta/40 text-terracotta hover:bg-terracotta/10 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors">
+                                <button class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition"
+                                        style="font-family: 'Georgia', serif;">
                                     Delete
                                 </button>
                             </form>
-
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
+            <!-- ADD ROOM FORM -->
+            <div class="bg-white bg-opacity-10 border border-white border-opacity-20 p-4 rounded-lg">
+                <h4 class="text-lg font-semibold mb-3 text-white" style="font-family: 'Georgia', serif;">Add New Room</h4>
+                <form method="post" action="/admin/rooms/add" class="flex flex-wrap gap-3 items-end">
+
+                    <div>
+                        <label class="block text-sm text-gray-300 mb-1" style="font-family: 'Georgia', serif;">Room ID</label>
+                        <input type="text" name="roomId" required
+                               style="font-family: 'Georgia', serif;"
+                               class="p-2 rounded bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-300 mb-1" style="font-family: 'Georgia', serif;">Type</label>
+                        <input type="text" name="type" required
+                               style="font-family: 'Georgia', serif;"
+                               class="p-2 rounded bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-300 mb-1" style="font-family: 'Georgia', serif;">Price</label>
+                        <input type="number" step="0.01" name="price" required
+                               style="font-family: 'Georgia', serif;"
+                               class="p-2 rounded bg-white bg-opacity-10 border border-white border-opacity-20 text-white">
+                    </div>
+
+                    <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition"
+                            style="font-family: 'Georgia', serif;">
+                        Add Room
+                    </button>
+
+                </form>
+            </div>
         </div>
 
-        <!-- ADD ROOM -->
-        <div class="bg-ink/40 border border-white/5 rounded-xl p-5">
-            <h4 class="font-display text-base text-cream mb-3 flex items-center gap-2">
-                <span class="text-brass">+</span> Add New Room
-            </h4>
-            <form method="post" action="/admin/rooms/add" class="flex flex-wrap gap-3 items-end">
+        <!-- BOOKINGS TABLE -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg">
+            <h3 class="text-xl font-semibold mb-4 text-white" style="font-family: 'Georgia', serif;">Bookings</h3>
 
-                <div class="flex-1 min-w-[140px]">
-                    <label class="block text-xs text-slate mb-1 uppercase tracking-wide">Room ID</label>
-                    <input type="text" name="roomId" required
-                           class="w-full px-3 py-2 rounded-lg bg-ink border border-white/10 text-cream text-sm focus:outline-none focus:ring-1 focus:ring-brass">
-                </div>
-
-                <div class="flex-1 min-w-[140px]">
-                    <label class="block text-xs text-slate mb-1 uppercase tracking-wide">Type</label>
-                    <input type="text" name="type" required
-                           class="w-full px-3 py-2 rounded-lg bg-ink border border-white/10 text-cream text-sm focus:outline-none focus:ring-1 focus:ring-brass">
-                </div>
-
-                <div class="flex-1 min-w-[120px]">
-                    <label class="block text-xs text-slate mb-1 uppercase tracking-wide">Price</label>
-                    <input type="number" step="0.01" name="price" required
-                           class="w-full px-3 py-2 rounded-lg bg-ink border border-white/10 text-cream text-sm focus:outline-none focus:ring-1 focus:ring-brass">
-                </div>
-
-                <button class="bg-brass hover:bg-brasslight text-ink rounded-lg px-4 py-2 text-sm font-semibold transition-colors">
-                    Add Room
-                </button>
-
-            </form>
-        </div>
-    </div>
-
-    <!-- BOOKINGS -->
-    <div class="bg-surface border border-white/5 rounded-xl p-6">
-        <div class="flex items-center gap-2 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5 text-brass">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-            </svg>
-            <h3 class="font-display text-lg text-cream">Bookings</h3>
-        </div>
-
-        <div class="overflow-x-auto rounded-lg border border-white/5">
-            <table class="w-full text-left">
-                <thead>
-                <tr class="bg-ink/40 text-slate text-xs uppercase tracking-wide">
+            <table class="w-full text-left" style="font-family: 'Georgia', serif;">
+                <thead class="bg-white bg-opacity-10">
+                <tr>
                     <th class="p-3">Booking ID</th>
                     <th class="p-3">User ID</th>
                     <th class="p-3">Room ID</th>
@@ -212,17 +151,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="booking : ${bookings}" class="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
-                    <td class="p-3 text-cream font-medium" th:text="${booking.bookingId}"></td>
-                    <td class="p-3 text-slate" th:text="${booking.userId}"></td>
-                    <td class="p-3 text-slate" th:text="${booking.roomId}"></td>
-                    <td class="p-3 text-slate" th:text="${booking.date}"></td>
+                <tr th:each="booking : ${bookings}"
+                    class="border-b border-white border-opacity-10 hover:bg-white hover:bg-opacity-5 transition">
+                    <td class="p-3" th:text="${booking.bookingId}"></td>
+                    <td class="p-3" th:text="${booking.userId}"></td>
+                    <td class="p-3" th:text="${booking.roomId}"></td>
+                    <td class="p-3" th:text="${booking.date}"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
     </div>
 
 </section>
-
 </html>

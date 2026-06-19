@@ -8,64 +8,61 @@
 
 <section>
 
-    <!-- Welcome Section -->
-    <div class="mb-10">
-        <h2 class="text-4xl font-bold mb-2">
+    <div class="max-w-7xl mx-auto px-6 pt-10 pb-8">
+        <h2 class="text-4xl font-bold text-white mb-2"
+            style="font-family: 'Georgia', serif;">
             Welcome to Hotel Reservation System
         </h2>
-        <p class="text-gray-400">
+        <p class="text-gray-200" style="font-family: 'Georgia', serif;">
             Manage rooms, bookings, and users efficiently
         </p>
     </div>
 
-    <!-- Action Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="max-w-7xl mx-auto px-6 pb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- Login — only show if NOT logged in -->
-        <a th:if="${session.user == null}" href="/login"
-           class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold mb-2">Login</h3>
-            <p class="text-gray-400">Access your account</p>
-        </a>
+            <a th:if="${session.user == null}" href="/login"
+               class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition block">
+                <h3 class="text-xl font-semibold mb-2 text-white" style="font-family: 'Georgia', serif;">Login</h3>
+                <p class="text-gray-300" style="font-family: 'Georgia', serif;">Access your account</p>
+            </a>
 
-        <!-- Register — only show if NOT logged in -->
-        <a th:if="${session.user == null}" href="/register"
-           class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold mb-2">Register</h3>
-            <p class="text-gray-400">Create a new account</p>
-        </a>
+            <a th:if="${session.user == null}" href="/register"
+               class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition block">
+                <h3 class="text-xl font-semibold mb-2 text-white" style="font-family: 'Georgia', serif;">Register</h3>
+                <p class="text-gray-300" style="font-family: 'Georgia', serif;">Create a new account</p>
+            </a>
 
-        <!-- Welcome card — only show if logged in -->
-        <div th:if="${session.user != null}"
-             class="bg-gray-800 p-6 rounded-xl shadow-lg">
-            <h3 class="text-xl font-semibold mb-2">
-                Welcome, <span th:text="${session.user.name}"></span>
-            </h3>
-            <p class="text-gray-400">
-                Logged in as <span th:text="${session.user.role}"></span>
-            </p>
+            <div th:if="${session.user != null}"
+                 class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-semibold mb-2 text-white" style="font-family: 'Georgia', serif;">
+                    Welcome, <span th:text="${session.user.name}"></span>
+                </h3>
+                <p class="text-gray-300" style="font-family: 'Georgia', serif;">
+                    Logged in as <span th:text="${session.user.role}"></span>
+                </p>
+            </div>
+
+            <a href="/rooms"
+               class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition block">
+                <h3 class="text-xl font-semibold mb-2 text-white" style="font-family: 'Georgia', serif;">View Rooms</h3>
+                <p class="text-gray-300" style="font-family: 'Georgia', serif;">Browse available rooms</p>
+            </a>
+
+            <a href="/booking"
+               class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition block">
+                <h3 class="text-xl font-semibold mb-2 text-white" style="font-family: 'Georgia', serif;">Book Room</h3>
+                <p class="text-gray-300" style="font-family: 'Georgia', serif;">Create or manage bookings</p>
+            </a>
+
+            <a href="/admin"
+               class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition block">
+                <h3 class="text-xl font-semibold mb-2 text-white" style="font-family: 'Georgia', serif;">Admin Panel</h3>
+                <p class="text-gray-300" style="font-family: 'Georgia', serif;">Manage system data</p>
+            </a>
+
         </div>
-
-        <!-- Rooms -->
-        <a href="/rooms" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold mb-2">View Rooms</h3>
-            <p class="text-gray-400">Browse available rooms</p>
-        </a>
-
-        <!-- Booking -->
-        <a href="/booking" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold mb-2">Book Room</h3>
-            <p class="text-gray-400">Create or manage bookings</p>
-        </a>
-
-        <!-- Admin -->
-        <a href="/admin" class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold mb-2">Admin Panel</h3>
-            <p class="text-gray-400">Manage system data</p>
-        </a>
-
     </div>
 
 </section>
-
 </html>

@@ -4,42 +4,84 @@
 
 <head>
     <title th:replace="${title}">Hotel System</title>
-
-    <!-- This is Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-image: url('/images/background.jpg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 10, 30, 0.15);
+            z-index: 0;
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background: rgba(10, 20, 40, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        footer {
+            background: rgba(10, 20, 40, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            margin-top: auto;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="text-white">
 
-<!-- This is the navigation bar -->
-<nav class="bg-gray-800 shadow-lg">
+<nav class="border-b border-white/10 shadow-lg fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-        <!-- This is the Logo -->
-        <h1 class="text-xl font-bold text-white">
+        <h1 class="text-xl font-bold text-white tracking-widest uppercase"
+            style="font-family: 'Georgia', serif; letter-spacing: 0.15em;">
             Hotel System
         </h1>
 
-        <!-- These are the Navigation Links -->
-        <div class="space-x-6">
-            <a href="/" class="hover:text-blue-400">Home</a>
-            <a href="/rooms" class="hover:text-blue-400">Rooms</a>
-            <a href="/booking" class="hover:text-blue-400">Booking</a>
-            <a href="/admin" class="hover:text-blue-400">Admin</a>
-            <a href="/logout" class="text-red-400 hover:text-red-500">Logout</a>
+        <div class="space-x-6"
+             style="font-family: 'Georgia', serif; letter-spacing: 0.08em;">
+            <a href="/" class="hover:text-yellow-300 transition text-sm uppercase tracking-wider">Home</a>
+            <a href="/rooms" class="hover:text-yellow-300 transition text-sm uppercase tracking-wider">Rooms</a>
+            <a href="/booking" class="hover:text-yellow-300 transition text-sm uppercase tracking-wider">Booking</a>
+            <a href="/admin" class="hover:text-yellow-300 transition text-sm uppercase tracking-wider">Admin</a>
+            <a href="/logout" class="text-red-400 hover:text-red-300 transition text-sm uppercase tracking-wider">Logout</a>
         </div>
 
     </div>
 </nav>
 
-<!-- This is the main content -->
-<main class="max-w-7xl mx-auto px-6 py-10">
+<main class="pt-20">
     <div th:replace="${content}"></div>
 </main>
 
-<!-- footer -->
-<footer class="bg-gray-800 mt-10">
-    <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-400">
+<footer class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-300"
+         style="font-family: 'Georgia', serif; letter-spacing: 0.05em;">
         © 2026 Hotel Reservation System
     </div>
 </footer>

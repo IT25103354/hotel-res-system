@@ -8,54 +8,43 @@
 
 <section class="flex justify-center items-center min-h-[70vh]">
 
-    <div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+    <div class="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-8 rounded-xl shadow-lg w-full max-w-md">
 
-        <!-- Title -->
-        <h2 class="text-2xl font-bold text-center mb-6">
+        <h2 class="text-2xl font-bold text-center mb-6 text-white"
+            style="font-family: 'Georgia', serif;">
             Login to Your Account
         </h2>
 
-        <!-- Error Message -->
         <div th:if="${error}"
-             class="bg-red-500 text-white p-3 rounded mb-4 text-center">
+             class="bg-red-500 bg-opacity-70 text-white p-3 rounded mb-4 text-center"
+             style="font-family: 'Georgia', serif;">
             <span th:text="${error}"></span>
         </div>
 
-        <!-- Form -->
         <form method="post" action="/login" class="space-y-4">
 
-            <!-- Email -->
-            <input type="text"
-                   name="email"
-                   placeholder="Enter your email"
-                   required
-                   class="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="email" placeholder="Enter your email" required
+                   style="font-family: 'Georgia', serif;"
+                   class="w-full p-3 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-40">
 
-            <!-- Password -->
-            <input type="password"
-                   name="password"
-                   placeholder="Enter your password"
-                   required
-                   class="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password" name="password" placeholder="Enter your password" required
+                   style="font-family: 'Georgia', serif;"
+                   class="w-full p-3 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-40">
 
-            <!-- Button -->
             <button type="submit"
+                    style="font-family: 'Georgia', serif;"
                     class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-lg font-semibold transition">
                 Login
             </button>
 
         </form>
 
-        <!-- Register Redirect -->
-        <p class="text-gray-400 text-center mt-4">
-            Don’t have an account?
-            <a href="/register" class="text-blue-400 hover:underline">
-                Register
-            </a>
+        <p class="text-gray-300 text-center mt-4" style="font-family: 'Georgia', serif;">
+            Don't have an account?
+            <a href="/register" class="text-white hover:underline">Register</a>
         </p>
 
     </div>
 
 </section>
-
 </html>
